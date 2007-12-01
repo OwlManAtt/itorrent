@@ -100,13 +100,6 @@ switch($_SERVER['RELEASE_MODE'])
              **/
 			'template_path' => '/var/www/itorrent/template',
 
-            /**
-             * The HTMLPurifier cache must be writable by the webserver's user.
-             * Set this to null to disable the cache (but you *want* the cache
-             * for performance reasons!). Oh, and no trailing slash.
-             **/
-            'htmlpurifier_cachedir' => '/var/www/itorrent/cache',
-
             /*
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
