@@ -98,7 +98,7 @@
         </td>
         <td class='{$class}{$inactive}'>{$torrent.title}</td> 
         <td class='{$class}{$inactive}'>{$torrent.size.total}</td> 
-        <td class='{$class}{$inactive}'>{$torrent.rate.up}</td> 
+        <td class='{$class}{$inactive}'>{$torrent.rate.up}/s</td> 
         <td class='{$class}{$inactive}'>{$torrent.ratio}</td> 
     </tr>
     {sectionelse}
