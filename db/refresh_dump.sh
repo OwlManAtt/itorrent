@@ -7,9 +7,9 @@ then
     exit 2;
 fi
 
-mysqldump -d -u root --password=$1 kkk > mysql5_ddl.sql
+mysqldump -d -u root --password=$1 itorrent > mysql5_ddl.sql
 
 for table in  ${tables[@]}
 do
-    mysqldump -t -c -u root --password=$1 kkk $table > data/${table}.sql
+    mysqldump -t -c -u root --password=$1 itorrent $table > data/${table}.sql
 done
