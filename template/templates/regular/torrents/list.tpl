@@ -114,6 +114,11 @@
     <table border='0'>
         <tr>
             <td align='center'>
+                <form action='{$display_settings.public_dir}/add-torrent' method='get'>
+                    <input type='submit' value='Add Torrent' />
+                </form>
+            </td>
+            <td align='center'>
                 <form action='{$display_settings.public_dir}/stop-all-torrents' method='post'>
                     <input type='submit' value='Stop All Torrents' />
                 </form>

@@ -97,6 +97,22 @@ class Torrent extends rTorrent
 
         return null;
     } // end findOneByHash
+
+    static public function create($rpc_url,$torrent_uri,$start=true)
+    {
+        $client = XML_RPC2_Client::create($rpc_url,array());
+
+        if($start == true)
+        {
+            $client->load_start_verbose($torrent_uri);
+        }
+        else
+        {
+            $client->load_verbose($torrent_uri);
+        }
+
+        return true;
+    } // end create
     
     public function __construct($attributes)
     {
