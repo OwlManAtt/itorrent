@@ -29,6 +29,12 @@ foreach($torrents as $torrent)
     );
 } // end torrent reformatting loop
 
+if(isset($_SESSION['torrents_alert']) == true)
+{
+    $renderer->assign('alert',$_SESSION['torrents_alert']);
+    unset($_SESSION['torrents_alert']);
+}
+
 $renderer->assign('complete_torrents',$TORRENTS['complete']);
 $renderer->assign('incomplete_torrents',$TORRENTS['incomplete']);
 $renderer->display('torrents/list.tpl');

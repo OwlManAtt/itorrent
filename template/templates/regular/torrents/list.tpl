@@ -1,8 +1,11 @@
+{if $alert != ''}<ul><li id='alert' class='{$fat}'>{$alert}</li></ul>{/if}
+
 <table class='inputTable' width='95%'>
     <tr>
-        <td colspan='6' class='inputTableHead'>Leeching</td>
+        <td colspan='7' class='inputTableHead'>Leeching</td>
     </tr>
     <tr>
+        <td class='inputTableRow inputTableSubhead center' style='width: 20px;'>&nbsp;</td>
         <td class='inputTableRow inputTableSubhead center' style='width: 20px;'>&nbsp;</td>
         <td class='inputTableRow inputTableSubhead center'>Name</td>
         <td class='inputTableRow inputTableSubhead center'>Size</td>
@@ -23,7 +26,18 @@
     
     {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
     <tr>
-        <td class='{$class}{$inactive} center'><img src='{$display_settings.public_dir}/resources/images/icons/{$icon}' border='0' alt='{if $torrent.active == 1}A{else}I{/if}' /></td>
+        <td class='{$class}{$inactive} center'>
+            <form action='{$display_settings.public_dir}/toggle-status' method='post'>
+                <input type='hidden' name='hash_id' value='{$torrent.hash}' />
+                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/{$icon}' alt='{if $torrent.active == 1}A{else}I{/if}' />
+            </form>
+        </td>
+         <td class='{$class}{$inactive} center'>
+            <form action='{$display_settings.public_dir}/remove-torrent' method='post'>
+                <input type='hidden' name='hash_id' value='{$torrent.hash}' />
+                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
+            </form>
+        </td>
         <td class='{$class}{$inactive}'>{$torrent.title}</td> 
         <td class='{$class}{$inactive}'>{$torrent.size.downloaded} / {$torrent.size.total}</td> 
         <td class='{$class}{$inactive}'>{$torrent.rate.up} / {$torrent.rate.down}</td> 
@@ -36,7 +50,7 @@
     </tr>
     {sectionelse}
     <tr>
-        <td class='inputTableAlt empty-table'>No torrents are being downloaded.</td> 
+        <td colspan='7' class='inputTableRowAlt empty-table'>No torrents are being downloaded.</td> 
     </tr>
     {/section}
     
@@ -47,9 +61,10 @@
 
 <table class='inputTable' width='95%'>
     <tr>
-        <td colspan='5' class='inputTableHead'>Seeding</td>
+        <td colspan='6' class='inputTableHead'>Seeding</td>
     </tr>
     <tr>
+        <td class='inputTableRow inputTableSubhead center' style='width: 20px;'>&nbsp;</td>
         <td class='inputTableRow inputTableSubhead center' style='width: 20px;'>&nbsp;</td>
         <td class='inputTableRow inputTableSubhead center'>Name</td>
         <td class='inputTableRow inputTableSubhead center'>Size</td>
@@ -69,7 +84,18 @@
     
     {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
     <tr>
-        <td class='{$class}{$inactive} center'><img src='{$display_settings.public_dir}/resources/images/icons/{$icon}' border='0' alt='{if $torrent.active == 1}A{else}I{/if}' /></td>
+        <td class='{$class}{$inactive} center'>
+            <form action='{$display_settings.public_dir}/toggle-status' method='post'>
+                <input type='hidden' name='hash_id' value='{$torrent.hash}' />
+                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/{$icon}' alt='{if $torrent.active == 1}A{else}I{/if}' />
+            </form>
+        </td>
+         <td class='{$class}{$inactive} center'>
+            <form action='{$display_settings.public_dir}/remove-torrent' method='post'>
+                <input type='hidden' name='hash_id' value='{$torrent.hash}' />
+                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
+            </form>
+        </td>
         <td class='{$class}{$inactive}'>{$torrent.title}</td> 
         <td class='{$class}{$inactive}'>{$torrent.size.total}</td> 
         <td class='{$class}{$inactive}'>{$torrent.rate.up}</td> 
@@ -77,7 +103,7 @@
     </tr>
     {sectionelse}
     <tr>
-        <td class='inputTableAlt empty-table'>No torrents are being seeded.</td> 
+        <td colspan='6' class='inputTableRowAlt empty-table'>No torrents are being seeded.</td> 
     </tr>
     {/section}
 

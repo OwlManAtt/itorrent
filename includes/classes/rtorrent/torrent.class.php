@@ -14,16 +14,10 @@ class Torrent extends Getter
     protected $upload_speed;
     protected $download_speed;
     protected $ratio;
-    
-    static public function findByStatus($rpc_url,$status='all')
+   
+    static public function getQueryAttributes()
     {
-        // Make the API call friendly.
-        if($status == 'all')
-        {
-            $status = 'main';
-        }
-        
-        $query = array(
+        return array(
             array('hash', 'd.get_hash='),
             array('title', 'd.get_name='),
             array('bytes_complete', 'd.get_completed_bytes='),
@@ -37,7 +31,10 @@ class Torrent extends Getter
             array('download_speed', 'd.get_down_rate='),
             array('ratio', 'd.get_ratio='),
         );
-      
+    } // end getQueryAttributes
+
+    static public function buildMulticallString($query)
+    {
         $args = array();
         foreach($query as $arg)
         {
@@ -45,6 +42,19 @@ class Torrent extends Getter
         }
         $args = implode(',',$args);
        
+        return $args; 
+    } // end buildMulticallString
+    
+    static public function findByStatus($rpc_url,$status='all')
+    {
+        // Make the API call friendly.
+        if($status == 'all')
+        {
+            $status = 'main';
+        }
+
+        $query =  Torrent::getQueryAttributes();
+        $args = Torrent::buildMulticallString($query);
         $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.'));
         
         eval('$torrents_raw = $client->multicall($status,'.$args.');');
@@ -64,6 +74,29 @@ class Torrent extends Getter
     
         return $TORRENTS;
     } // end fineByStatus
+
+    /**
+     * Find a torrent by its hash. 
+     * 
+     * @param mixed $rpc_url 
+     * @param mixed $hash 
+     * @return Torrent|null
+     * @todo Inefficient. Re-implement to not suck.
+     **/
+    static public function findOneByHash($rpc_url,$hash)
+    {
+        $torrents = Torrent::findByStatus($rpc_url,'all');
+
+        foreach($torrents as $torrent)
+        {
+            if($torrent->getHash() == $hash)
+            {
+                return $torrent;
+            }
+        } // end loop
+
+        return null;
+    } // end findOneByHash
     
     public function __construct($attributes)
     {
@@ -75,6 +108,11 @@ class Torrent extends Getter
 
     public function getPercentComplete()
     {
+        if($this->getBytesComplete() == 0)
+        {
+            return 0;
+        }
+        
         return round(($this->getBytesComplete() / ($this->getBytesComplete() + $this->getBytesIncomplete()) * 100),1);
     } // end getPercentComplete
 
@@ -168,14 +206,47 @@ class Torrent extends Getter
             $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
 
         $size = number_format(($bytes / pow(1024,$power)),2);
-        if(substr($size,-1,3) == '.00')
+        $size = explode('.',$size);
+
+        if($size[1] == '00')
         {
             // Drop the '.00', it's useless.
-            $size = substr($size,0,strlen($size)-3);
+            $size = $size[0]; 
+        }
+        else
+        {
+            $size = implode('.',$size);
         }
        
         return $size.' '.$units[$power];
     } // end filesize_format 
+    
+    /* ===========    Actoions    =========== */
+    public function pause($rpc_url)
+    {
+        $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.'));
+        $return = $client->stop($this->getHash());
+        
+        return true;
+    } // end pause
+
+    public function start($rpc_url)
+    {
+        $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.'));
+        $return = $client->start($this->getHash());
+    
+        return true;
+    } // end start
+
+    public function remove($rpc_url)
+    {
+        $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.'));
+        $return = $client->erase($this->getHash());
+
+        unset($this);
+    } // end remove
+
+    /* =========== Internal Stuff =========== */
 
     protected function duration($secs) 
     { 
