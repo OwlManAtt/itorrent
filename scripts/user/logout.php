@@ -1,6 +1,6 @@
 <?php
 /**
- * Config file that includes all other classes. This is to keep main clean. 
+ * Logs a user out.
  *
  * This file is part of 'Kitto_Kitto_Kitto'.
  *
@@ -25,26 +25,10 @@
  * @copyright Nicolas Evans, 2007
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  * @package Kitto_Kitto_Kitto
- * @subpackage Core 
+ * @subpackage Core
  * @version 1.0.0
  **/
 
-/**
- * Abstract classes come first, lest their children cause fatal errors.
- **/
-require('getter.class.php');
-
-/**
- * User-related classes.
- **/
-require('user/user.class.php');
-require('user/user_staff_group.class.php');
-require('user/staff_group.class.php');
-require('user/staff_permission.class.php');
-
-/**
- * rTorrent XML-APC API wrappers.
- **/
-require('rtorrent/torrent.class.php');
-
+$User->logout();
+redirect('torrents');
 ?>

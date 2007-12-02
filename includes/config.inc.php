@@ -117,6 +117,12 @@ switch($_SERVER['RELEASE_MODE'])
              * The name of your site.
              **/
             'site_name' => 'iTorrent - Bubo',
+
+            /**
+             * The URI for your RPC service.
+             **/
+            'rpc_uri' => 'http://bubo.owl.ys/RPC2',
+            // 'rpc_uri' => 'http://ragudo.ib.ys/RPC2',
 		);
 		
 		break;
@@ -143,6 +149,7 @@ ini_set('include_path',ini_get('include_path').':./external_lib/');
 require_once('external_lib/DB.php');
 require_once('external_lib/Log.php');
 require_once('external_lib/aphp/aphp.php');
+require_once('XML/RPC2/Client.php');
 
 /**
  * KKK library files.

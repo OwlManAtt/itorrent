@@ -1,0 +1,9 @@
+# This controls what config options to use.
+# SetEnv RELEASE_MODE DEV
+
+RewriteEngine On
+RewriteBase /itorrent
+
+RewriteRule resources(.*) - [L]
+
+RewriteRule ^([A-Z0-9-]+)(/(.*))?$ index.php?page_slug=$1 [QSA,NC,L]

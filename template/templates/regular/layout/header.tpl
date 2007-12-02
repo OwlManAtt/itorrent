@@ -22,7 +22,7 @@
                     <li>{kkkurl link_text='Torrents' slug='torrents'}</li>
                 </ul>
                 {if $logged_in == true}
-                {include file="layout/user_box.tpl"}
+                {include file="regular/layout/user_box.tpl"}
                 {/if}
             </div>
 

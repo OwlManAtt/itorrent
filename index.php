@@ -85,7 +85,7 @@ else
 	} // end no access
 	else
 	{
-		include('scripts/'.$jump_page->getPhpScript());
+		include("{$APP_CONFIG['base_path']}/scripts/{$jump_page->getPhpScript()}");
 	} // end include script
 
 	$renderer->display("layout/footer.tpl");

@@ -203,6 +203,32 @@ h3 {
     display: inline;
 }
 
-.pages {
+.center {
     text-align: center;
+}
+
+.inactive {
+    color: gray; 
+}
+
+.empty-table {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.progress-border {
+    height: 15px; 
+    width: 135px;
+    background: #fff;
+    border: 1px solid gray;
+    margin: 0;
+    padding: 1px;
+}
+
+.progress-bar {
+    height: 13px;
+    margin-top: 1px;
+    padding: 0;
+    background: green;
 }
