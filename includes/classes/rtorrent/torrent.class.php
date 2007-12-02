@@ -1,6 +1,6 @@
 <?php
 
-class Torrent extends Getter
+class Torrent extends rTorrent 
 {
     protected $hash;
     protected $title;
@@ -153,12 +153,12 @@ class Torrent extends Getter
 
     public function getEstimatedSecondsLeft()
     {
-        if($this->getUploadSpeed() == 0)
+        if($this->getDownloadSpeed() == 0)
         {
             return null;
         }
 
-        return round($this->getBytesIncomplete() / (float)$this->getUploadSpeed());
+        return round($this->getBytesIncomplete() / (float)$this->getDownloadSpeed());
     } // end getEstimatedSecondsLeft
 
     public function getEstimatedTimeLeft()
@@ -245,31 +245,6 @@ class Torrent extends Getter
 
         unset($this);
     } // end remove
-
-    /* =========== Internal Stuff =========== */
-
-    protected function duration($secs) 
-    { 
-        $vals = array(
-            'w' => (int) ($secs / 86400 / 7), 
-            'd' => $secs / 86400 % 7, 
-            'h' => $secs / 3600 % 24, 
-            'm' => $secs / 60 % 60, 
-            's' => $secs % 60
-        ); 
-
-        $ret = array(); 
-
-        $added = false; 
-        foreach ($vals as $k => $v) { 
-            if ($v > 0 || $added) { 
-                $added = true; 
-                $ret[] = $v . $k; 
-            } 
-        } 
-
-        return join(' ', $ret); 
-    } // end duration 
 
 } // end Torrent
 ?>

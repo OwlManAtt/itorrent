@@ -45,6 +45,8 @@ require('user/staff_permission.class.php');
 /**
  * rTorrent XML-APC API wrappers.
  **/
+require('rtorrent/rtorrent.class.php');
 require('rtorrent/torrent.class.php');
+require('rtorrent/settings.class.php');
 
 ?>

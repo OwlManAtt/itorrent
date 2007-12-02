@@ -40,7 +40,7 @@
         </td>
         <td class='{$class}{$inactive}'>{$torrent.title}</td> 
         <td class='{$class}{$inactive}'>{$torrent.size.downloaded} / {$torrent.size.total}</td> 
-        <td class='{$class}{$inactive}'>{$torrent.rate.up} / {$torrent.rate.down}</td> 
+        <td class='{$class}{$inactive}'>{$torrent.rate.up}/s / {$torrent.rate.down}/s</td> 
         <td class='{$class}{$inactive}'>{$torrent.eta}</td> 
         <td class='{$class}{$inactive}'>
             <div class='progress-border'>
@@ -106,6 +106,18 @@
         <td colspan='6' class='inputTableRowAlt empty-table'>No torrents are being seeded.</td> 
     </tr>
     {/section}
-
-    
 </table>
+
+<br /><br />
+
+<div align='right'>
+    <table border='0'>
+        <tr>
+            <td align='center'>
+                <form action='{$display_settings.public_dir}/stop-all-torrents' method='post'>
+                    <input type='submit' value='Stop All Torrents' />
+                </form>
+            </td>
+        </tr> 
+    </table>
+</div>
