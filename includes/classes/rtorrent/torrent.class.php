@@ -55,7 +55,7 @@ class Torrent extends rTorrent
 
         $query =  Torrent::getQueryAttributes();
         $args = Torrent::buildMulticallString($query);
-        $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.'));
+        $client = XML_RPC2_Client::create($rpc_url,array('prefix' => 'd.','encoding' => 'utf-8')); 
         
         eval('$torrents_raw = $client->multicall($status,'.$args.');');
         

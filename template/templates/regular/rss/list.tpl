@@ -16,7 +16,7 @@
 <br />
 
 <div align='center'>
-    <table class='inputTable' width='85%'>
+    <table class='inputTable' width='90%'>
         <tr>
             <td colspan='3' class='inputTableHead'>{$feed.name}</td>
         </tr>
@@ -29,15 +29,15 @@
         {assign var='item' value=$items[index]}
         {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
         <tr>
-            <td class='{$class}' style='text-align: center;'>
+            <td class='{$class}' style='text-align: center; {$item.style}'>
                 <form action='{$display_settings.public_dir}/add-torrent' method='post'>
                     <input type='hidden' name='state' value='add' />
                     <input type='hidden' name='torrent[uri]' value='{$item.url}' />
                     <input type='image' src='{$display_settings.public_dir}/resources/images/icons/green_plus.png' alt='+' />
                 </form>
             </td>
-            <td class='{$class}'>{$item.title}</td>
-            <td class='{$class}'>{$item.datetime}</td>
+            <td class='{$class}' style='{$item.style}'>{if $item.icon != ''}<img src='{$display_settings.public_dir}/resources/images/icons/{$item.icon}' border='0' alt='-->' />&nbsp;{/if}{$item.title}</td>
+            <td class='{$class}' style='{$item.style}'>{$item.datetime}</td>
         </tr>
         {sectionelse}
         <tr>

@@ -13,9 +13,15 @@ class RSSFeed_Item extends Getter
     {
         foreach($attributes as $key => $value)
         {
-            $this->$key = $value;
+            $this->$key = trim($value);
         } // end loop
     } // end construct
+
+    public function getTitle()
+    {
+        return str_replace(array("\xe2","\x80","\x8b"),null,$this->title);
+    } // end getTitle
+
 } // end RSSFeed_Item
 
 ?>

@@ -24,6 +24,24 @@ if(sizeof($ERRORS) > 0)
 }
 else
 {
+    // Build a hash of torrents being downloaded. The RSS feed's items will
+    // be compared against this hash, and any matching item are surpressed.
+    $torrents = Torrent::findByStatus($APP_CONFIG['rpc_uri'],'all');
+    
+    $TORRENTING = array();
+    foreach($torrents as $torrent)
+    {
+        $TORRENTING[] = $torrent->getTitle();
+
+        /*
+        print "<pre>\n";
+            var_dump($torrent->getTitle());
+            print ' - ';
+            print mb_detect_encoding($torrent->getTitle());
+        print "</pre>\n";
+        */
+    } // end array
+    
     // Get the list of feeds for the dropdown menu.
     $feed_list = new RSSFeed($db);
     $feed_list = $feed_list->findBy(array());
@@ -39,16 +57,44 @@ else
         'name' => $feed->getFeedTitle(),
     );
 
+    $rss_highlighter = new RSSHighlight($db);
     $rss_items = $feed->grabItems();
 
     $ITEMS = array();
     foreach($rss_items as $item)
     {
-        $ITEMS[] = array(
-            'title' => $item->getTitle(),
-            'url' => $item->getLink(),
-            'datetime' => $item->getPubdate(),
-        );
+        // Surpress things being downloaded/seeded already.
+        if(in_array($item->getTitle(),array_values($TORRENTING)) == false)
+        {
+            /*
+            print "<pre>\n";
+                var_dump($item->getTitle());
+                print ' - ';
+                print mb_detect_encoding($item->getTitle());
+            print "</pre>\n";
+            */
+
+            $highlight = $rss_highlighter->checkValue($item->getTitle());
+            $style = '';
+            $icon = '';
+            if($highlight == 'important')
+            {
+                $style = 'font-weight: bold; font-size: large;';
+                $icon = 'blue_chevron_right.png';
+            }
+            elseif($highlight == 'minimize')
+            {
+                $style = 'color: gray; font-size: small;';
+            }
+
+            $ITEMS[] = array(
+                'title' => $item->getTitle(),
+                'url' => $item->getLink(),
+                'datetime' => $item->getPubdate(),
+                'style' => $style,
+                'icon' => $icon,
+            );
+        }
     } // end item reformat loop
 
     $renderer->assign('feed',$FEED);

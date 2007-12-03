@@ -20,7 +20,7 @@ class RSSFeed extends ActiveTable
                 'guid' => (string)$item->guid,
                 'title' => (string)$item->title,
                 'link' => $link, 
-                'pubdate' => (string)$item->pubDate,
+                'pubdate' => date('Y-m-d H:i',strtotime((string)$item->pubDate)),
                 'category' => (string)$item->category,
                 'description' => (string)$item->description,
             );

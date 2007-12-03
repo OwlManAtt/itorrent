@@ -47,6 +47,18 @@ CREATE TABLE `rss_feed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `rss_highlight`
+--
+
+DROP TABLE IF EXISTS `rss_highlight`;
+CREATE TABLE `rss_highlight` (
+  `rss_highlight_id` int(11) NOT NULL auto_increment,
+  `highlight_preg` text NOT NULL,
+  `highlight_type` enum('important','minimize') NOT NULL,
+  PRIMARY KEY  (`rss_highlight_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `staff_group`
 --
 
