@@ -49,4 +49,10 @@ require('rtorrent/rtorrent.class.php');
 require('rtorrent/torrent.class.php');
 require('rtorrent/settings.class.php');
 
+/**
+ * RSS feed parsin' goodness
+ **/
+require('rss/rss_feed.class.php');
+require('rss/rss_feed_item.class.php');
+
 ?>

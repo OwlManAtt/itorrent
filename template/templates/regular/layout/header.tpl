@@ -20,6 +20,7 @@
             <div id='left-column'>
                 <ul id='navigation-bar'>
                     <li>{kkkurl link_text='Torrents' slug='torrents'}</li>
+                    <li>{kkkurl link_text='RSS Feeds' slug='rss-feeds'}</li>
                     <li>{kkkurl link_text='Client Settings' slug='client-settings'}</li>
                 </ul>
                 {if $logged_in == true}

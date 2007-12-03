@@ -34,6 +34,19 @@ CREATE TABLE `jump_page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `rss_feed`
+--
+
+DROP TABLE IF EXISTS `rss_feed`;
+CREATE TABLE `rss_feed` (
+  `rss_feed_id` int(11) NOT NULL auto_increment,
+  `feed_title` varchar(20) NOT NULL,
+  `feed_url` text NOT NULL,
+  `default` enum('N','Y') NOT NULL default 'N',
+  PRIMARY KEY  (`rss_feed_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `staff_group`
 --
 
