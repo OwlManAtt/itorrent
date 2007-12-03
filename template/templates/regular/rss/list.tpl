@@ -36,7 +36,7 @@
                     <input type='image' src='{$display_settings.public_dir}/resources/images/icons/green_plus.png' alt='+' />
                 </form>
             </td>
-            <td class='{$class}' style='{$item.style}'>{if $item.icon != ''}<img src='{$display_settings.public_dir}/resources/images/icons/{$item.icon}' border='0' alt='-->' />&nbsp;{/if}{$item.title}</td>
+            <td class='{$class}' style='{$item.style}'>{if $item.icon != ''}<img src='{$display_settings.public_dir}/resources/images/icons/{$item.icon}' border='0' alt='-->' />&nbsp;{/if}<span title='{$item.title}'>{$item.title|truncate:80:"...":true}</span></td>
             <td class='{$class}' style='{$item.style}'>{$item.datetime}</td>
         </tr>
         {sectionelse}

@@ -38,7 +38,7 @@
                 <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
             </form>
         </td>
-        <td class='{$class}{$inactive}'>{$torrent.title}</td> 
+        <td class='{$class}{$inactive}'><span title='{$torrent.title}'>{$torrent.title|truncate:45:"...":true}</span></td> 
         <td class='{$class}{$inactive}'>{$torrent.size.downloaded} / {$torrent.size.total}</td> 
         <td class='{$class}{$inactive}'>{$torrent.rate.up}/s / {$torrent.rate.down}/s</td> 
         <td class='{$class}{$inactive}'>{$torrent.eta}</td> 
@@ -96,7 +96,7 @@
                 <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
             </form>
         </td>
-        <td class='{$class}{$inactive}'>{$torrent.title}</td> 
+        <td class='{$class}{$inactive}'><span title='{$torrent.title}'>{$torrent.title|truncate:45:"...":true}</span></td> 
         <td class='{$class}{$inactive}'>{$torrent.size.total}</td> 
         <td class='{$class}{$inactive}'>{$torrent.rate.up}/s</td> 
         <td class='{$class}{$inactive}'>{$torrent.ratio}</td> 
