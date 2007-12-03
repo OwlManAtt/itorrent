@@ -1,5 +1,6 @@
 {if $alert != ''}<ul><li id='alert' class='{$fat}'>{$alert}</li></ul>{/if}
 
+<a name='leeching' />
 <table class='inputTable' width='95%'>
     <tr>
         <td colspan='7' class='inputTableHead'>Leeching</td>
@@ -59,6 +60,7 @@
 
 <br /><br />
 
+<a name='seeding' />
 <table class='inputTable' width='95%'>
     <tr>
         <td colspan='6' class='inputTableHead'>Seeding</td>
