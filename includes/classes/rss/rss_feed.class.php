@@ -34,7 +34,7 @@ class RSSFeed extends ActiveTable
 
     protected function resolveLink($url)
     {
-        if(preg_match('/^http:\/\/(www\.)?nyaatorrents\.org\/\?page=torrentinfo&tid=([0-9]+)/i',$url,$ID) == true)
+        if(preg_match('/^http:\/\/([a-z0-9]+\.)?nyaatorrents\.org\/\?page=torrentinfo&tid=([0-9]+)/i',$url,$ID) == true)
         {
             return "http://nyaatorrents.org/?page=download&tid={$ID[2]}";
         }
