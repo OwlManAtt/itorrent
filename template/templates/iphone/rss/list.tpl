@@ -1,6 +1,6 @@
 <h2>{$feed.name}</h2>
-
 <ul id='rss_list' title='RSS Feeds' selected='true' showFeedButton='true'>
+    <li class='group'>{$feed.name}</li>
     {section name=index loop=$items}
     {assign var='item' value=$items[index]}
     {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
