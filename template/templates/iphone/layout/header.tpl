@@ -11,5 +11,6 @@
         <div class="toolbar">
             <h1 id="pageTitle"></h1>
             <a id="backButton" class="button" href="#"></a>
+            <a href='#feedList' class='button' style='display: ;'>Feeds</a>
         </div>
 

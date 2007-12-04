@@ -1,3 +1,4 @@
+{debug}
 <div align='left'>
     <table border='0' width='20%'>
         <tr>

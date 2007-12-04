@@ -33,7 +33,15 @@ switch($_REQUEST['state'])
             $torrent = Torrent::create($APP_CONFIG['rpc_uri'],$_POST['torrent']['uri'],$start_immediately);
 
             $_SESSION['torrents_alert'] = 'Torrent added. It should show up soon...maybe.';
-            redirect('torrents');
+
+            if($UI_TYPE == 'iphone')
+            {
+                redirect('rss-feeds');
+            }
+            else
+            {
+                redirect('torrents');
+            }
         } // end no errors
 
         break;

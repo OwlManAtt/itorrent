@@ -1,7 +1,7 @@
 <?php
 $ERRORS = array();
 
-$feed_id = stripinput($_GET['feed_id']);
+$feed_id = stripinput($_REQUEST['feed_id']);
 
 $feed = new RSSFeed($db);
 if($feed_id == null)
@@ -99,6 +99,7 @@ else
             $ITEMS[] = array(
                 'internal_id' => $i,
                 'title' => $item->getTitle(),
+                'title_details' => $item->getLeanTitle(),
                 'url' => $item->getLink(),
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
