@@ -69,10 +69,12 @@ $renderer->assign('admin_email',$APP_CONFIG['administrator_email']);
 if(preg_match('/(iPhone|iPod)/i',$_SERVER['HTTP_USER_AGENT']) == true)
 {
     $UI_TYPE = 'iphone';
+    $DEFAULT_SLUG = 'iphone-nav';
 }
 else
 {
     $UI_TYPE = 'regular';
+    $DEFAULT_SLUG = 'torrents';
 }
 
 $logged_in = false;

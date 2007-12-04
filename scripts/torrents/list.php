@@ -23,6 +23,7 @@ foreach($torrents as $torrent)
             'down' => $torrent->getFormattedDownloadSpeed(),
         ),
         'active' => $torrent->getActive(),
+        'status' => $key,
         'percent_complete' => $torrent->getPercentComplete(),
         'eta' => $torrent->getEstimatedTimeLeft(),
         'ratio' => $torrent->getRatio(),
@@ -37,6 +38,9 @@ if(isset($_SESSION['torrents_alert']) == true)
 
 $renderer->assign('complete_torrents',$TORRENTS['complete']);
 $renderer->assign('incomplete_torrents',$TORRENTS['incomplete']);
+
+// Used in the iPhone UI to make the template DRYer.
+$renderer->assign('torrents',array_merge($TORRENTS['complete'],$TORRENTS['incomplete']));
 $renderer->display('torrents/list.tpl');
 
 ?>

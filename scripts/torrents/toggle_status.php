@@ -22,7 +22,15 @@ else
     }
 
     $_SESSION['torrents_alert'] = "{$torrent->getTitle()} was $verb.";
-    redirect('torrents');
+    
+    if($UI_TYPE == 'iphone')
+    {
+        redirect(null,null,"torrents/#torrent_{$torrent->getHash()}");
+    }
+    else
+    {
+        redirect('torrents');
+    }
 } // end change status
 
 ?>

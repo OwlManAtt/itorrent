@@ -40,9 +40,21 @@ require('includes/main.inc.php');
 // Load page info.
 if($_REQUEST['page_slug'] == null)
 {
-	$_REQUEST['page_slug'] = 'torrents';
-}
+    $_REQUEST['page_slug'] = $DEFAULT_SLUG; 
+} // end determine default slug
 $slug = stripinput($_REQUEST['page_slug']);
+
+// Do not send the layout more than once for the iPhone UI. iUI does not
+// want or need it - it does an AJAX request and adds the page fragment
+// into the content area after the initial load. 
+$render_layout = true;
+if($UI_TYPE == 'iphone')
+{
+    if($slug != 'iphone-nav')
+    {
+        $render_layout = false;
+    }
+} // end iphone UI
 
 $jump_page = new JumpPage($db);
 $jump_page = $jump_page->findOneByPageSlug($slug);
@@ -68,8 +80,11 @@ else
 	
 	$renderer->assign('page_title',$jump_page->getPageTitle());
 	$renderer->assign('page_html_title',$jump_page->getPageHtmlTitle());
-    
-	$renderer->display("layout/header.tpl");
+   
+    if($render_layout == true)
+    {
+        $renderer->display("layout/header.tpl");
+    }
 
 	if($jump_page->hasAccess($User) == false)
 	{
@@ -88,7 +103,10 @@ else
 		include("{$APP_CONFIG['base_path']}/scripts/{$jump_page->getPhpScript()}");
 	} // end include script
 
-	$renderer->display("layout/footer.tpl");
+    if($render_layout == true)
+    {
+        $renderer->display("layout/footer.tpl");
+    }
 } // end else-page found
 
 $db->disconnect();

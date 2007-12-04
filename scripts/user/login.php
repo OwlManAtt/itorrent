@@ -51,7 +51,7 @@ switch($_REQUEST['state'])
             if($User->checkPlaintextPassword($password) == true)
             {
                 $User->login();
-                redirect('torrents');
+                redirect($DEFAULT_SLUG);
             } // end password correct
             else
             {

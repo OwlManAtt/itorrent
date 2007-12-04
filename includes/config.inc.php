@@ -104,7 +104,7 @@ switch($_SERVER['RELEASE_MODE'])
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
              **/
-			'public_dir' => 'http://bell.owl.ys/itorrent',
+			'public_dir' => 'http://owly.homelinux.net/itorrent',
             
             /**
              * If you have many sites at this domain, a cookie prefix

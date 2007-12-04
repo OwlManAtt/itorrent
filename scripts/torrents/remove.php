@@ -13,7 +13,15 @@ else
     $torrent->remove($APP_CONFIG['rpc_uri']);
 
     $_SESSION['torrents_alert'] = "$name was removed.";
-    redirect('torrents');
+
+    if($UI_TYPE == 'iphone')
+    {
+        redirect(null,null,"torrents/#torrent_{$torrent->getHash()}");
+    }
+    else
+    {
+        redirect('torrents');
+    }
 } // end change status
 
 ?>
