@@ -271,6 +271,15 @@ function updatePage(page, fromPage)
         else
             backButton.style.display = "none";
     }    
+
+    var feedButton = $("feedButton");
+    if (feedButton)
+    {
+        if (!page.getAttribute("showFeedButton"))
+            feedButton.style.display = "none";
+        else
+            feedButton.style.display = "inline";
+    }    
 }
 
 function slidePages(fromPage, toPage, backwards)
