@@ -8,7 +8,7 @@
     {else}
         {assign var='color' value='gray'}
     {/if}
-    <li><a style='color: {$color}' href='#torrent_{$torrent.hash}'>{$torrent.title|truncate:27:"...":true}</a></li> 
+    <li><a style='color: {$color}' href='#torrent_{$torrent.hash}'>{$torrent.title|truncate:24:"...":true}</a></li> 
     {sectionelse}
     <li style='font-style: italic; color: gray;'>None</li>
     {/section}
@@ -21,7 +21,7 @@
     {else}
         {assign var='color' value='gray'}
     {/if}
-    <li><a style='color: {$color}' href='#torrent_{$torrent.hash}'>{$torrent.title|truncate:27:"...":true}</a></li> 
+    <li><a style='color: {$color}' href='#torrent_{$torrent.hash}'>{$torrent.title|truncate:24:"...":true}</a></li> 
     {sectionelse}
     <li style='font-style: italic; color: gray;'>None</li>
     {/section}
@@ -30,7 +30,7 @@
 {section name=index loop=$torrents}
 {assign var='torrent' value=$torrents[index]}
 <div id='torrent_{$torrent.hash}' class='panel'>
-    <h2>{$torrent.title|truncate:70:"...":true}</h2>
+    <h2>{$torrent.title|truncate:30:"...":true}</h2>
     <fieldset>
         <div class='row'>
             <label>Size</label>

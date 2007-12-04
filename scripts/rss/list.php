@@ -60,6 +60,7 @@ else
     $rss_highlighter = new RSSHighlight($db);
     $rss_items = $feed->grabItems();
 
+    $i = 1;
     $ITEMS = array();
     foreach($rss_items as $item)
     {
@@ -79,7 +80,15 @@ else
             $icon = '';
             if($highlight == 'important')
             {
-                $style = 'font-weight: bold; font-size: large;';
+                if($UI_TYPE == 'iphone')
+                {
+                    $style = 'color: green;';
+                }
+                else
+                {
+                    $style = 'font-weight: bold; font-size: large;';
+                }
+                
                 $icon = 'blue_chevron_right.png';
             }
             elseif($highlight == 'minimize')
@@ -88,12 +97,15 @@ else
             }
 
             $ITEMS[] = array(
+                'internal_id' => $i,
                 'title' => $item->getTitle(),
                 'url' => $item->getLink(),
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
             );
+
+            $i++;
         }
     } // end item reformat loop
 
