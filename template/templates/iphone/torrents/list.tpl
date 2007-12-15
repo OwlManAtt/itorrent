@@ -33,8 +33,8 @@
     <h2>{$torrent.title|truncate:30:"...":true}</h2>
     <fieldset>
         <div class='row'>
-            <label>Size</label>
-            <span>{if $torrent.active == 1}Active{else}Stopped{/if}</span>
+            <label>Status</label>
+            <span>{if $torrent.active == 1}Active{else}Paused{/if}</span>
         </div>
         <div class='row'>
             <label>Size</label>

@@ -12,7 +12,6 @@
             </td>
             <td class='inputTableRow' id='user_name_td'>
                 <input type='text' name='forgot[user_name]' id='user_name' maxlength='25' /><br />
-                <span class='textfieldRequiredMsg valid'>You must pick a username.</span>
             </td>
         </tr>
         <tr>
@@ -21,8 +20,6 @@
             </td>
             <td class='inputTableRowAlt' id='email_td'>
                 <input type='text' name='forgot[email]' id='email' /><br />
-                <span class='textfieldRequiredMsg valid'>You must specify your e-mail address.</span>
-                <span class='textfieldInvalidFormatMsg valid'>Invalid e-mail address.</span>
             </td>
         </tr>
         <tr>
@@ -33,7 +30,6 @@
             </td>
             <td class='inputTableRow' id='code_td'>
                 <input type='text' name='forgot[code]' id='code' /><br />
-                <span class='textfieldRequiredMsg valid'>You must enter the code.</span>
             </td>
         </tr>
         <tr>

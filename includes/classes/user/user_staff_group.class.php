@@ -1,6 +1,6 @@
 <?php
 /**
- * Handy stop-all button for playing SC. 
+ * Staff groups <=> users map. 
  *
  * This file is part of 'iTorrent'.
  *
@@ -25,21 +25,33 @@
  * @copyright Nicolas Evans, 2007
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  * @package iTorrent
+ * @subpackage Core
  * @version 1.0.0
  **/
 
-
-$torrents = Torrent::findByStatus($APP_CONFIG['rpc_uri'],'all');
-
-foreach($torrents as $torrent)
+/**
+ * Staff groups <=> users map. 
+ * 
+ * @uses ActiveTable
+ * @package iTorrent
+ * @subpackage Core 
+ * @copyright 2007 Nicholas Evans
+ * @author Nick 'Owl' Evans <owlmanatt@gmail> 
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL v3
+ **/
+class User_StaffGroup extends ActiveTable
 {
-    if($torrent->getActive() == true)
-    {
-        $torrent->pause($APP_CONFIG['rpc_uri']);
-    }
-} // end torrent loop
+    protected $table_name = 'user_staff_group';
+    protected $primary_key = 'user_staff_group_id';
+    protected $RELATED = array(
+        'group' => array(
+            'class' => 'StaffGroup',
+            'local_key' => 'staff_group_id',
+            'foreign_key' => 'staff_group_id',
+            'one' => true,
+        ),
+    );
 
-$_SESSION['torrents_alert'] = "All torrents have been stopped.";
-redirect('torrents');
+} // end User_StaffGroup
 
 ?>

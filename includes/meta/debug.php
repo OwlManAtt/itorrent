@@ -1,6 +1,6 @@
 <?php
 /**
- * Handy stop-all button for playing SC. 
+ * Exception handlers for Kitto. 
  *
  * This file is part of 'iTorrent'.
  *
@@ -25,21 +25,38 @@
  * @copyright Nicolas Evans, 2007
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  * @package iTorrent
+ * @subpackage Core
  * @version 1.0.0
  **/
 
-
-$torrents = Torrent::findByStatus($APP_CONFIG['rpc_uri'],'all');
-
-foreach($torrents as $torrent)
+/**
+ * The exception handler used if the release mode is DEV.
+ *
+ * This is very simple - it just print_rs the whole error before
+ * exiting. 
+ * 
+ * @param object $e The exception.
+ * @return void
+ **/
+function development_exception_handler($e)
 {
-    if($torrent->getActive() == true)
-    {
-        $torrent->pause($APP_CONFIG['rpc_uri']);
-    }
-} // end torrent loop
+    pprint_r($e);
+    die();
+} // end development_exception_handler
 
-$_SESSION['torrents_alert'] = "All torrents have been stopped.";
-redirect('torrents');
-
+/**
+ * The exception handler used if the release mode is PROD. 
+ *
+ * You probably want to change this function to e-mail you
+ * and show a nicer page.
+ * 
+ * @todo Site-specific implementation.
+ * @param object $e The exception.
+ * @return void
+ **/
+function production_exception_handler($e)
+{
+    print "An error occured!";
+    die();
+} // end production_exception_handler
 ?>
