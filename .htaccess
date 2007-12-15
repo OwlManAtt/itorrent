@@ -1,6 +1,3 @@
-# This controls what config options to use.
-# SetEnv RELEASE_MODE DEV
-
 RewriteEngine On
 RewriteBase /itorrent
 
