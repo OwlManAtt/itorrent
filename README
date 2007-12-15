@@ -1,0 +1,109 @@
+== 0. Introduction ==
+Marketing text goes here. But, I don't feel like writing any yet.
+
+== 1. Dependencies ==
+
+* rTorrent >=0.7.5 with XMLRPC support
+    * Tested with rTorrent and libtorrent from svn trunk r1015
+    * You will need to use XMLRPC-C version 1.12.00.
+    * For directions on compiling rTorrent with XMLRPC support, see:
+        <http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide>
+* PHP >=5.0.0
+    * If you have the PHP XMLRPC extension installed, you will need to disable
+      it. The XMLRPC extension does not handle the (unofficial) 64-bit ints (i8)
+      datatype that rTorrent uses and will cause the PEAR::XML_RPC2 library to
+      fuck up.
+* MySQL >=4.1 (a MySQL 5.x.x is fine too!)
+    * (Optional) phpMyAdmin would be handy for administrating your RSS feeds.
+      At this time, I haven't written screens for managing the RSS feeds or
+      hilights.
+* Apache
+    * mod_rewrite must be enabled.
+
+== 1.5 rTorrent Setup Notes ==
+It is best to use Lighttpd to frontend the rTorrent domain socket. The link
+above recommends this and explains how to set it up. I encountered a few issues:
+
+    *  Ubuntu's lighttpd package comes with the scgi module turned off. It had
+       to be enabled by adding mod_scgi to server.modules in the lighttpd
+       config file.
+
+    * rTorrent may create the socket file with permissions that render it
+      useless to Lighttpd. If you have problems with the RPC interface, check
+      Lighttpd's logs and see if it is complaining about not being able to
+      open the socket file.
+
+      I was able to solve the problem by using the rtorrent.rc option 
+      'scgi_local' and pointing it to a directory. Since rTorrent runs as my
+      user, I chgrp'd the folder to www-data, changed my umask to 0002, and set
+      the sticky bit on the folder.
+
+== 2. Installing iTorrent ==
+1. Put the files in a web-accessible folder.
+2. Chmod the template/cache and template/templates_c folders to be writable by
+   the webserver.
+3. Edit the includes/config.inc.php file. Follow the in-line documentation and
+   everything will be OK.
+4. Load the db/mysql_ddl.sql file into your database to create the table 
+   structure.
+5. Load all of the db/data/*.sql files into your database. These files add the
+   permissions and jump page entries. Without this data, iTorrent will not
+   function.
+6. Run the following SQL to remove the permission from your create user page:
+    
+    UPDATE jump_page SET access_level = 'public' WHERE page_slug = 'create-user'; 
+
+7. Visit the <http://yourdomain.com/itorrent/create-user> page and create your
+   iTorrent user. Then, run the following SQL to make yourself an administrator
+   and restore the protection on the create user page:
+
+    -- Take the user ID from this query: 
+    SELECT user_id FROM user;
+
+    -- And put it in where the 'X' is in this qury:
+    INSERT INTO user_staff_group (user_id,staff_group_id) VALUES (X,1),(X,2),(X,3);
+
+    -- You are now in the torrenter, torrent admin, and user admin groups!
+
+    -- Restore the permission protection on create-users.
+    UPDATE jump_page SET access_level = 'restricted' WHERE page_slug = 'create-user'; 
+
+8. Log in to iTorrent and manage your torrents!
+
+== 3. Using RSS feeds and hilights ==
+Presently, there is no way to add RSS feeds and hilights for RSS items via the
+web UI. This feature is Coming Soon(tm).
+
+Add rows to the rss_feed table to add rss feeds:
+
+    INSERT INTO rss_feed (feed_title,feed_url,default) VALUES ('TT - Animu','http://tokyotosho.com/rss.php?filter=1','Y');
+    INSERT INTO rss_feed (feed_title,feed_url,default) VALUES ('TT - Raws','http://tokyotosho.com/rss.php?filter=7','N');
+
+Make sure only one record has default = Y. The default RSS feed is the one that
+gets shown when you hit 'RSS Feed'. You can view other feeds by selecting them
+from the dropdown on that page.
+
+Hilights are stored in the rss_hilight table. They are Perl-compatible regular 
+expressions and are applied to all feeds. 
+
+Example pregs
+
+/clannad/i              matches anything with 'Clannad' in the title (case 
+                        insensitive).
+/Minami(\s|-|_)+Ke/i    matches anything with Minami-Ke, Minami Ke, or Minami_Ke
+                        in the title (case insensitive).
+
+To add a highlight:
+
+    INSERT INTO rss_highlight (highlight_preg,highlight_type) VALUES ('/clannad/i','important');
+
+The valid values for highlight_type are 'important' and 'minimize'. Minimized 
+matches are shown in small gray text - ideal for a Naruto highlight. Important
+highlights are large and green.
+
+== 4. Credits ==
+See the CREDITS file for a full list of contributors and special thanks.
+
+iTorrent is a product provided by the Yasashii Syndicate. For more information
+and details on our other products and services, please see 
+<http://yasashiisyndicate.org>.
