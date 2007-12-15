@@ -1,6 +1,12 @@
 RewriteEngine On
 RewriteBase /itorrent
 
-RewriteRule resources(.*) - [L]
+# Lighttpd equiv, maybe?
+# url.rewrite-once = (
+#   "^itorrentdir/resources/(.*)" => "$0",
+#   "^itorrentdir/(.*)\?(.*)$" => "itorrentdir/index.php?page_slug=$1&$2",
+#   "^itorrentdir/(.*)$" => "itorrentdir/index.php?page_slug=$1"
+# )
 
+RewriteRule resources(.*) - [L]
 RewriteRule ^([A-Z0-9-]+)(/(.*))?$ index.php?page_slug=$1 [QSA,NC,L]
