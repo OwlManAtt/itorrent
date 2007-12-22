@@ -39,7 +39,7 @@ require('includes/config.inc.php');
  **/
 require_once('external_lib/Smarty/Smarty.class.php');
 require_once('includes/classes/itorrent_smarty.class.php');
-
+require_once('external_lib/Bittorrent2/Decode.php');
 /*
 * == ADDITIONAL INCLUDE ==
 * HTMLPurified is require_once()'d, but not in main - see the clean_xhtml

@@ -44,7 +44,7 @@
  **/
 class User extends ActiveTable
 {
-	protected $table_name = 'user';
+    protected $table_name = 'user';
     protected $primary_key = 'user_id';
     protected $RELATED = array(
         'staff_groups' => array(
