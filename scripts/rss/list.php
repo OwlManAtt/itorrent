@@ -34,6 +34,7 @@ $ERRORS = array();
 $feed_id = stripinput($_REQUEST['feed_id']);
 
 $feed = new RSSFeed($db);
+
 if($feed_id == null)
 {
     $feed = $feed->findOneByDefault('Y');
@@ -125,7 +126,7 @@ else
             {
                 $style = 'color: gray; font-size: small;';
             }
-
+            $TorrentMeta = new TorrentMeta($db);
             $ITEMS[] = array(
                 'internal_id' => $i,
                 'title' => $item->getTitle(),
@@ -134,6 +135,7 @@ else
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
+                'info_hash' => $TorrentMeta->cacheTorrent($item->getLink()),
             );
 
             $i++;

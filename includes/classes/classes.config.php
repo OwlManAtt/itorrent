@@ -56,4 +56,8 @@ require('rss/rss_feed.class.php');
 require('rss/rss_feed_item.class.php');
 require('rss/rss_highlight.class.php');
 
+/**
+ * Additional data sources to make the UI nicer
+ **/
+require('torrent/torrent_meta.class.php');
 ?>

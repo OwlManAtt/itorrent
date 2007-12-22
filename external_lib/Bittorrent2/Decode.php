@@ -196,7 +196,7 @@ class Bittorrent2_Decode
         }
 
         // Compute info_hash
-        $Encoder = new File_Bittorrent2_Encode;
+        $Encoder = new Bittorrent2_Encode;
         $this->info_hash = sha1($Encoder->encode($this->decoded['info']));
 
         // Pull information form decoded data

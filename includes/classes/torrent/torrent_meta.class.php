@@ -34,19 +34,30 @@ class TorrentMeta extends ActiveTable
     protected $table_name = 'torrent_meta';
     protected $primary_key = 'torrent_meta_id';
 
-    public function addTorrent($url)
+    public function cacheTorrent($url)
     {
-        $TorrentProcessor = new Bittorrent2_Decode;
-        $result = $TorrentProcessor->decodeFile($url);
+        $result = $this->findOneByUrl($url);
+        if (!$result) {
+            $TorrentProcessor = new Bittorrent2_Decode;
+            $result = $TorrentProcessor->decodeFile($url); // TODO: Error Handling?
 
-        $insert = array(	// TODO: Lrn2Getter
-            'url'      => $url,
-            'info_hash'=> $result['info_hash'],
-            'name'=>      $result['name'],
-            'size'=>      (int)$result['size']);
+            $insert = array(	// TODO: Lrn2Getter
+                'url'      => $url,
+                'info_hash'=> $result['info_hash'],
+                'name'=>      $result['name'],
+                'size'=>      (int)$result['size']);
 
-        $this->create($insert);
-    } // end addTorrent
+            $this->create($insert);
+            $result = $this->findOneByUrl($url);
+        }
+        if (!$result) return "Error retrieving hash.";
+        return $result->getInfoHash();
+    } // end cacheTorrent
+#    public function vacuumStaleEntries()
+#    {
+#        $stale = $this->
+#        $stale->destroy()
+#    }
 } // end RSS
 
 ?>
