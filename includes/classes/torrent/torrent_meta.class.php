@@ -39,8 +39,8 @@ class TorrentMeta extends ActiveTable
         $result = $this->findOneByUrl($url);
         if (!$result) {
             $TorrentProcessor = new Bittorrent2_Decode;
-            $result = $TorrentProcessor->decodeFile($url); // TODO: Error Handling?
-
+            try { $result = $TorrentProcessor->decodeFile($url);      }
+            catch(Exception $e) { return 'Bittorrent2 reported: '.$e->getMessage(); }
             $insert = array(	// TODO: Lrn2Getter
                 'url'      => $url,
                 'info_hash'=> $result['info_hash'],

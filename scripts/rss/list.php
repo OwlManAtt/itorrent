@@ -127,15 +127,16 @@ else
                 $style = 'color: gray; font-size: small;';
             }
             $TorrentMeta = new TorrentMeta($db);
+            $link = $item->getLink();
             $ITEMS[] = array(
                 'internal_id' => $i,
                 'title' => $item->getTitle(),
                 'title_details' => $item->getLeanTitle(),
-                'url' => $item->getLink(),
+                'url' => $link,
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
-                'info_hash' => $TorrentMeta->cacheTorrent($item->getLink()),
+                'info_hash' => $TorrentMeta->cacheTorrent($link),
             );
 
             $i++;
