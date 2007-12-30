@@ -111,7 +111,7 @@ else
             $icon = '';
             if($highlight == 'important')
             {
-                if($UI_TYPE == 'iphone')
+                if(($UI_TYPE == 'iphone') || ($UI_TYPE == 'psp'))
                 {
                     $style = 'color: green;';
                 }
@@ -136,7 +136,7 @@ else
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
-                'info_hash' => $TorrentMeta->cacheTorrent($link),
+                'info_hash' => false, #$TorrentMeta->cacheTorrent($link),
             );
 
             $i++;

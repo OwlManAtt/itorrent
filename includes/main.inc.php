@@ -71,6 +71,11 @@ if(preg_match('/(iPhone|iPod)/i',$_SERVER['HTTP_USER_AGENT']) == true)
     $UI_TYPE = 'iphone';
     $DEFAULT_SLUG = 'iphone-nav';
 }
+elseif(preg_match('/PlayStation Portable/',$_SERVER['HTTP_USER_AGENT']) == true)
+{
+    $UI_TYPE = 'psp';
+    $DEFAULT_SLUG = 'torrents';
+}
 else
 {
     $UI_TYPE = 'regular';
