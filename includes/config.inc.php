@@ -91,20 +91,20 @@ switch($_SERVER['RELEASE_MODE'])
              * it in your browser. Look for the 'SCRIPT_FILENAME' field.
              * The base path is everything *except* for the filename.
              **/
-			'base_path' => '/var/www/itorrent/itorrent/trunk',
+			'base_path' => '/var/www/itorrent',
             
             /**
              * The path to the root of your Smarty template directory.
              * The templates/, templates_c/, cache/, and configs/ folders
              * live in here.
              **/
-			'template_path' => '/var/www/itorrent/itorrent/trunk/template',
+			'template_path' => '/var/www/itorrent/template',
 
             /*
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
              **/
-			'public_dir' => 'https://infinityb.yasashiisyndicate.org/itorrent',
+			'public_dir' => 'http://fgsfds.ib.ys/itorrent',
   
             /**
              * If you have many sites at this domain, a cookie prefix

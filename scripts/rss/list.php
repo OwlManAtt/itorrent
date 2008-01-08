@@ -128,6 +128,7 @@ else
             }
             $TorrentMeta = new TorrentMeta($db);
             $link = $item->getLink();
+            $TorrentMeta = $TorrentMeta->cacheTorrent($link);
             $ITEMS[] = array(
                 'internal_id' => $i,
                 'title' => $item->getTitle(),
@@ -136,7 +137,9 @@ else
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
-                'info_hash' => false, #$TorrentMeta->cacheTorrent($link),
+                'infohash' => $TorrentMeta["infohash"],
+                'size' => $TorrentMeta["size"],
+                'files' => $TorrentMeta["files"]
             );
 
             $i++;

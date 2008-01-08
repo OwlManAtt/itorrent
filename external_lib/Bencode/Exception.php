@@ -43,7 +43,7 @@ require_once 'PEAR/Exception.php';
 * @author Markus Tacker <m@tacker.org>
 * @version $Id: Exception.php 76 2007-08-25 15:11:16Z m $
 */
-class File_Bittorrent2_Exception extends PEAR_Exception {
+class Bencode_Exception extends PEAR_Exception {
 	/**
 	* @global int Exception happened during data decoding
 	*/

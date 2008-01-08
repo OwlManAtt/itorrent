@@ -18,11 +18,13 @@
 <div align='center'>
     <table class='inputTable' width='90%'>
         <tr>
-            <td colspan='4' class='inputTableHead'>{$feed.name}</td>
+            <td colspan='6' class='inputTableHead'>{$feed.name}</td>
         </tr>
         <tr>
             <td class='inputTableRow inputTableSubhead'>&nbsp;</td>
             <td class='inputTableRow inputTableSubhead'>Title</td>
+            <td class='inputTableRow inputTableSubhead'>Size</td>
+            <td class='inputTableRow inputTableSubhead'>Files</td>
             <td class='inputTableRow inputTableSubhead'>Published</td>
             <td class='inputTableRow inputTableSubhead'>InfoHash</td>
         </tr>
@@ -38,8 +40,10 @@
                 </form>
             </td>
             <td class='{$class}' style='{$item.style}'>{if $item.icon != ''}<img src='{$display_settings.public_dir}/resources/images/icons/{$item.icon}' border='0' alt='-->' />&nbsp;{/if}<span title='{$item.title}'>{$item.title|truncate:80:"...":true}</span></td>
+            <td class='{$class}' style='{$item.style}'>{$item.size}</td>
+            <td class='{$class}' style='{$item.style}'>{$item.files}</td>
             <td class='{$class}' style='{$item.style}'>{$item.datetime}</td>
-            <td class='{$class}' style='{$item.style}'>{$item.info_hash}</td>
+            <td class='{$class}' style='{$item.style}'>{$item.infohash}</td>
         </tr>
         {sectionelse}
         <tr>

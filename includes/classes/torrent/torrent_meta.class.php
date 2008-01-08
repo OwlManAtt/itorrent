@@ -34,30 +34,90 @@ class TorrentMeta extends ActiveTable
     protected $table_name = 'torrent_meta';
     protected $primary_key = 'torrent_meta_id';
 
+    protected function filesize_format($bytes,$force = '')
+    {
+        $force = strtoupper($force);
+    
+        $bytes = max(0, $bytes);
+    
+        $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    
+        $power = array_search($force, $units);
+    
+        if ($power === false)
+            $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
+    
+        $size = number_format(($bytes / pow(1024,$power)),2);
+        $size = explode('.',$size);
+    
+        if($size[1] == '00')
+        {
+            // Drop the '.00', it's useless.
+            $size = $size[0];
+        }
+        else
+        {
+            $size = implode('.',$size);
+        }
+        return $size.' '.$units[$power];
+    } // end filesize_format
+
+    protected function torrent_data_extractor($str)
+    {
+        $TorrentProcessor = new Bencode;
+
+        try { $result = $TorrentProcessor->decode($str); }
+        catch(Exception $e) { return 'Bencode: '.$e->getMessage(); }
+
+        $size=0;
+        if ($result["info"]["length"])
+        {
+            $size=$result["info"]["length"];
+        }
+        else
+        {
+            foreach($result["info"]["files"] as $file)
+                $size += $file["length"];
+        }
+
+        $infohash = sha1($TorrentProcessor->encode($result["info"]));
+        
+        $filecount = 1;
+        if($result["info"]["files"]) $filecount = count($result["info"]["files"]);
+
+        $result = array(
+            "name" => $result['info']['name'],
+            "size" => $size,
+            "infohash" => $infohash,
+            "files" => $filecount,
+            );
+        return $result;
+    } // end torrent_data_extractor
+
     public function cacheTorrent($url)
     {
         $result = $this->findOneByUrl($url);
         if (!$result) {
-            $TorrentProcessor = new Bittorrent2_Decode;
-            try { $result = $TorrentProcessor->decodeFile($url);      }
-            catch(Exception $e) { return 'Bittorrent2 reported: '.$e->getMessage(); }
-            $insert = array(	// TODO: Lrn2Getter
-                'url'      => $url,
-                'info_hash'=> $result['info_hash'],
-                'name'=>      $result['name'],
-                'size'=>      (int)$result['size']);
 
-            $this->create($insert);
+            $torrentdata = $this->torrent_data_extractor(file_get_contents($url));
+
+            $extended = array(
+                'url'=>$url,
+                'row_added'=>time(),
+                );
+
+            $this->create(array_merge($torrentdata, $extended));
+            
             $result = $this->findOneByUrl($url);
         }
         if (!$result) return "Error retrieving hash.";
-        return $result->getInfoHash();
+        return array(
+            'name'     => $result->getName(),
+            'size'     => $this->filesize_format($result->getSize()),
+            'infohash' => $result->getInfohash(),
+            'files'    => $result->getFiles(),
+            );
     } // end cacheTorrent
-#    public function vacuumStaleEntries()
-#    {
-#        $stale = $this->
-#        $stale->destroy()
-#    }
 } // end RSS
 
 ?>
