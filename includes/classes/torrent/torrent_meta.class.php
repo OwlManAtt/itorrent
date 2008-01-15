@@ -100,15 +100,19 @@ class TorrentMeta extends ActiveTable
         if (!$result) {
 
             $torrentdata = $this->torrent_data_extractor(file_get_contents($url));
-
-            $extended = array(
-                'url'=>$url,
-                'row_added'=>time(),
-                );
-
-            $this->create(array_merge($torrentdata, $extended));
             
-            $result = $this->findOneByUrl($url);
+            // Don't try caching it if it's fucked good and proper.
+            if(is_array($torrent_data) == true)
+            {
+                $extended = array(
+                    'url'=>$url,
+                    'row_added'=>time(),
+                    );
+
+                $this->create(array_merge($torrentdata, $extended));
+                
+                $result = $this->findOneByUrl($url);
+            } // end got data
         }
         if (!$result) return "Error retrieving hash.";
         return array(
