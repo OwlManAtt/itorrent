@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: itorrent
 -- ------------------------------------------------------
--- Server version	5.0.22-Debian_0ubuntu6.06.3-log
+-- Server version	5.0.22-Debian_0ubuntu6.06.6-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -22,7 +22,7 @@
 
 /*!40000 ALTER TABLE `jump_page` DISABLE KEYS */;
 LOCK TABLES `jump_page` WRITE;
-INSERT INTO `jump_page` (`jump_page_id`, `page_title`, `page_html_title`, `page_slug`, `access_level`, `restricted_permission_api_name`, `php_script`, `active`) VALUES (1,'Torrents','Torrents','torrents','user','','torrents/list.php','Y'),(2,'Authenticate','Authenticate','login','public','','user/login.php','Y'),(3,'Reset Password','Reset Password','reset-password','public','','user/forgot_password.php','Y'),(4,'Logout','Logout','logoff','public','','user/logout.php','Y'),(5,'Create User','Create User','create-user','restricted','manage-users','user/create.php','Y'),(6,'Start/Stop Torrent','Start/Stop Torrent','toggle-status','restricted','manage-torrents','torrents/toggle_status.php','Y'),(7,'Remove Torrent','Remove Torrent','remove-torrent','restricted','manage-torrents','torrents/remove.php','Y'),(8,'Stop All Torrents','Stop All Torrents','stop-all-torrents','restricted','manage-torrents','torrents/stop_all.php','Y'),(9,'rTorrent Settings','rTorrent Settings','client-settings','restricted','set-rate-limits','settings/configure.php','Y'),(10,'Add Torrent','Add Torrent','add-torrent','restricted','manage-torrents','torrents/add.php','Y'),(11,'Torrent Feeds','Torrent Feeds','rss-feeds','user','','rss/list.php','Y');
+INSERT INTO `jump_page` (`jump_page_id`, `page_title`, `page_html_title`, `page_slug`, `access_level`, `restricted_permission_api_name`, `php_script`, `active`) VALUES (1,'Torrents','Torrents','torrents','user','','torrents/list.php','Y'),(2,'Authenticate','Authenticate','login','public','','user/login.php','Y'),(3,'Reset Password','Reset Password','reset-password','public','','user/forgot_password.php','Y'),(4,'Logout','Logout','logoff','public','','user/logout.php','Y'),(5,'Create User','Create User','create-user','restricted','manage-users','user/create.php','Y'),(6,'Start/Stop Torrent','Start/Stop Torrent','toggle-status','restricted','manage-torrents','torrents/toggle_status.php','Y'),(7,'Remove Torrent','Remove Torrent','remove-torrent','restricted','manage-torrents','torrents/remove.php','Y'),(8,'Stop All Torrents','Stop All Torrents','stop-all-torrents','restricted','manage-torrents','torrents/stop_all.php','Y'),(9,'rTorrent Settings','rTorrent Settings','client-settings','restricted','set-rate-limits','settings/configure.php','Y'),(10,'Add Torrent','Add Torrent','add-torrent','restricted','manage-torrents','torrents/add.php','Y'),(11,'Torrent Feeds','Torrent Feeds','rss-feeds','user','','rss/list.php','Y'),(12,'iTorrent','iTorrent','iphone-nav','user','','meta/iphone_nav.php','Y');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `jump_page` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -1,5 +1,5 @@
 #!/bin/bash
-tables=( jump_page staff_permission staff_group )
+tables=( jump_page staff_permission staff_group staff_group_staff_permission )
 
 if [ "$1" = '' ]
 then

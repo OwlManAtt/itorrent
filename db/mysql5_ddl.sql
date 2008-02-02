@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: itorrent
 -- ------------------------------------------------------
--- Server version	5.0.22-Debian_0ubuntu6.06.3-log
+-- Server version	5.0.22-Debian_0ubuntu6.06.6-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -97,6 +97,22 @@ CREATE TABLE `staff_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `torrent_meta`
+--
+
+DROP TABLE IF EXISTS `torrent_meta`;
+CREATE TABLE `torrent_meta` (
+  `torrent_meta_id` int(10) unsigned NOT NULL auto_increment,
+  `url` varchar(255) NOT NULL,
+  `infohash` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `size` bigint(255) NOT NULL,
+  `files` int(11) NOT NULL,
+  `row_added` int(11) NOT NULL,
+  PRIMARY KEY  (`torrent_meta_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `user`
 --
 
@@ -139,12 +155,4 @@ CREATE TABLE `user_staff_group` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-CREATE TABLE `torrent_meta` (
-`torrent_meta_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`url` VARCHAR( 255 ) NOT NULL ,
-`info_hash` VARCHAR( 255 ) NOT NULL ,
-`name` VARCHAR( 255 ) NOT NULL ,
-`size` BIGINT( 255 ) NOT NULL ,
-`row_added` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
-) ENGINE = MYISAM ;
 

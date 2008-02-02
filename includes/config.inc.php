@@ -71,8 +71,8 @@ switch($_SERVER['RELEASE_MODE'])
 			'db_dsn' => array(
 				'phptype' => 'mysql', // This can also be run on Oracle (oci).
 				'username' => 'itorrent',
-				'password' => '72ez9ex6x6H4TBmv',
-				'hostspec' => 'nova.ib.ys:4523',
+				'password' => 'AJU@#95Cxr3XPr6P&JYw',
+				'hostspec' => 'localhost',
 				'database' => 'itorrent',
 			),
             
@@ -104,7 +104,7 @@ switch($_SERVER['RELEASE_MODE'])
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
              **/
-			'public_dir' => 'http://fgsfds.ib.ys/itorrent',
+			'public_dir' => 'http://owly.homelinux.net/itorrent',
   
             /**
              * If you have many sites at this domain, a cookie prefix
@@ -116,13 +116,13 @@ switch($_SERVER['RELEASE_MODE'])
             /**
              * The name of your site.
              **/
-            'site_name' => 'iTorrent - Ragudo',
+            'site_name' => 'iTorrent - Bubo',
 
             /**
              * The URI for your RPC service.
              **/
             // 'rpc_uri' => 'http://bubo.owl.ys/RPC2',
-            'rpc_uri' => 'http://ragudo.ib.ys/RPC2',
+            'rpc_uri' => 'http://bubo.owl.ys/RPC2',
 		);
 		
 		break;

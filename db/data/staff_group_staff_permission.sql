@@ -16,15 +16,15 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `staff_permission`
+-- Dumping data for table `staff_group_staff_permission`
 --
 
 
-/*!40000 ALTER TABLE `staff_permission` DISABLE KEYS */;
-LOCK TABLES `staff_permission` WRITE;
-INSERT INTO `staff_permission` (`staff_permission_id`, `api_name`, `permission_name`) VALUES (1,'manage-torrents','Manage Torrents'),(2,'set-rate-limits','Modify Rate Limits'),(3,'manage-users','Add/Delete Users');
+/*!40000 ALTER TABLE `staff_group_staff_permission` DISABLE KEYS */;
+LOCK TABLES `staff_group_staff_permission` WRITE;
+INSERT INTO `staff_group_staff_permission` (`staff_group_staff_permission`, `staff_group_id`, `staff_permission_id`) VALUES (1,1,1),(2,2,2),(4,3,2),(3,3,3);
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `staff_permission` ENABLE KEYS */;
+/*!40000 ALTER TABLE `staff_group_staff_permission` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
