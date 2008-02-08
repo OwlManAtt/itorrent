@@ -34,6 +34,11 @@ class TorrentMeta extends ActiveTable
     protected $table_name = 'torrent_meta';
     protected $primary_key = 'torrent_meta_id';
 
+    public function getFormattedSize()
+    {
+        return $this->filesize_format($this->getSize());
+    } // end getFormattedSize
+
     protected function filesize_format($bytes,$force = '')
     {
         $force = strtoupper($force);
@@ -62,65 +67,77 @@ class TorrentMeta extends ActiveTable
         return $size.' '.$units[$power];
     } // end filesize_format
 
-    protected function torrent_data_extractor($str)
+    private function torrent_data_extractor($str)
     {
-        $TorrentProcessor = new Bencode;
+        $TorrentProcessor = new Bencode();
 
-        try { $result = $TorrentProcessor->decode($str); }
-        catch(Exception $e) { return 'Bencode: '.$e->getMessage(); }
+        try 
+        { 
+            $result = $TorrentProcessor->decode($str); 
+        }
+        catch(Exception $e) 
+        { 
+            throw new TorrentInvalidError($e->getMessage());
+        }
 
-        $size=0;
-        if ($result["info"]["length"])
+        $size = 0;
+        if($result['info']['length'])
         {
-            $size=$result["info"]["length"];
+            $size = $result['info']['length'];
         }
         else
         {
-            foreach($result["info"]["files"] as $file)
-                $size += $file["length"];
-        }
+            foreach($result['info']['files'] as $file)
+            {
+                $size += $file['length'];
+            }
+        } // end sum files
 
-        $infohash = sha1($TorrentProcessor->encode($result["info"]));
+        $infohash = sha1($TorrentProcessor->encode($result['info']));
         
         $filecount = 1;
-        if($result["info"]["files"]) $filecount = count($result["info"]["files"]);
+        if($result['info']['files']) 
+        {
+            $filecount = count($result['info']['files']);
+        }
 
-        $result = array(
-            "name" => $result['info']['name'],
-            "size" => $size,
-            "infohash" => $infohash,
-            "files" => $filecount,
-            );
-        return $result;
+        return array(
+            'name' => $result['info']['name'],
+            'size' => $size,
+            'infohash' => $infohash,
+            'files' => $filecount,
+        );
     } // end torrent_data_extractor
 
-    public function cacheTorrent($url)
+    /**
+     * Add the torrent to the cache, if it is not already there. 
+     * 
+     * @param string $url The URL of the .torrent .
+     * @param integer $parent_feed_id The RSS feed to associate this with. This is ONLY used
+     *                                for cleanup purposes. If two RSS feeds list the same 
+     *                                torrent URI, it will only be downloaded and cached once.
+     * @return bool 
+     **/
+    public function cacheTorrent($url,$parent_feed_id)
     {
-        $result = $this->findOneByUrl($url);
-        if (!$result) {
-
-            $torrentdata = $this->torrent_data_extractor(file_get_contents($url));
-            
-            // Don't try caching it if it's fucked good and proper.
-            if(is_array($torrent_data) == true)
+        $torrent = $this->findOneByUrl($url);
+        if($torrent == null) 
+        {
+            $torrent_raw = @file_get_contents($url);
+            if($torrent_raw === false)
             {
-                $extended = array(
-                    'url'=>$url,
-                    'row_added'=>time(),
-                    );
+                throw new TorrentUnavailableError('The torrent could not be downloaded.');
+            }
 
-                $this->create(array_merge($torrentdata, $extended));
-                
-                $result = $this->findOneByUrl($url);
-            } // end got data
-        }
-        if (!$result) return "Error retrieving hash.";
-        return array(
-            'name'     => $result->getName(),
-            'size'     => $this->filesize_format($result->getSize()),
-            'infohash' => $result->getInfohash(),
-            'files'    => $result->getFiles(),
-            );
+            $METADATA = $this->torrent_data_extractor($torrent_raw);
+            $METADATA['rss_feed_id'] = $parent_feed_id;
+            $METADATA['url'] = $url;
+            $METADATA['cached_datetime'] = $this->sysdate();
+            
+            $this->create($METADATA);
+        } // end torrent not found in cache
+
+        return true;
     } // end cacheTorrent
 } // end RSS
 

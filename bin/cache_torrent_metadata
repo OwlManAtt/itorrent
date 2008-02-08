@@ -1,0 +1,120 @@
+#!/usr/bin/php
+<?php
+/**
+ * Background metadata downloader. 
+ *
+ * This script is not required; it simply supplements your RSS reader with
+ * other pieces of useful data. There will be a lag time (the time depending
+ * on how often you have this script run) between items showing up in the feeds
+ * and items being cached. The new items will show up immediately, though - no 
+ * worries about missing things.
+ *
+ * Put this script into cron (removing the space 
+ * between the first star and slash, enjoy your PHP):
+ * 
+ *   * /5 *  *   *   *     /var/www/itorrent/bin/cache_torrent_metadata
+ *
+ * You will need to change the basedir in the chdir(). This makes include suck
+ * less.
+ * 
+ * To enable metadata fetching/caching, set rss_feed.fetch_metadata = 'Y'.
+ * The appropriate columns will show up in the GUI automatically.
+ *
+ * To have old metadata purged, set the rss_feed.metadata_expire_seconds field
+ * to something. I'm a fan of holding on to things for about a quarter (7862400 
+ * seconds), but pick whatever is appropriate for your feed/setup. If you set it 
+ * to 0, metadata will never be purged.
+ *
+ * If you do NOT want to download metadata for certian torrents, use the RSS filter
+ * feature described in the README. Any torrents that match a minimizing filter will
+ * be skipped. 
+ *
+ * To enable debugging output for this script, set $verbose to true. 
+ * 
+ * This file is part of 'iTorrent'.
+ *
+ * 'iTorrent' is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free
+ * Software Foundation; either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * 'iTorrent' is distributed in the hope that it will
+ * be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.  See the GNU General Public
+ * License for more details.
+ * 
+ * You should have received a copy of the GNU General
+ * Public License along with 'iTorrent'; if not,
+ * write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @author Nicholas 'Owl' Evans <owlmanatt@gmail.com>
+ * @copyright Nicolas Evans, 2007
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
+ * @package iTorrent
+ * @subpackage Core
+ * @version 1.0.0
+ **/
+
+$verbose = false; 
+chdir('/var/www/itorrent');
+require_once('./includes/config.inc.php');
+
+function printMessage($text,$warn=false)
+{
+    $message = '';
+    $message .= "[".date('Y-m-d H:i:s')."] $text\n";
+    
+    if($GLOBALS['verbose'] == true)
+    {
+        print $message;
+    }
+} // end printMessage
+
+$feeds = new RSSFeed($db);
+$feeds = $feeds->findByFetchMetadata('Y');
+
+foreach($feeds as $feed)
+{
+    printMessage("Beginning RSS feed {$feed->getFeedTitle()}.");
+    $rss_highlighter = new RSSHighlight($db);
+
+    // Delete expired stuff, if stuff expires.
+    if($feed->getMetadataExpireSeconds() > 0)
+    {
+        printMessage("Deleting metadata that is {$feed->getMetadataExpireSeconds()} seconds old.");
+        $db->query('
+            DELETE FROM torrent_meta 
+            WHERE (UNIX_TIMESTAMP() + ?) < UNIX_TIMESTAMP(NOW())
+            AND rss_feed_id = ?
+        ',array($feed->getMetadataExpireSeconds(),$feed->getRssFeedId()));
+    } // end clear expired data
+
+    $items = $feed->grabItems();
+    foreach($items as $item)
+    {
+        $highlight = $rss_highlighter->checkValue($item->getTitle());
+        if($highlight == 'minimize')
+        {
+            printMessage("\tSkipping '{$item->getLink()}' as per filter.");
+        } // end skip
+        else
+        {
+            printMessage("\tProcessing '{$item->getLink()}'...");
+            try
+            {
+                $torrent_meta = new TorrentMeta($db);
+                $torrent_meta = $torrent_meta->cacheTorrent($item->getLink(),$feed->getRssFeedId());
+            }
+            catch(Exception $e)
+            {
+                printMessage("\t* Torrent invalid: {$e->getMessage()}");
+            }
+        } // end process
+    } // end rss item loop
+} // end feed loop
+
+printMessage('All done!');
+?>

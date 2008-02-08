@@ -150,6 +150,7 @@ require_once('external_lib/DB.php');
 require_once('external_lib/Log.php');
 require_once('external_lib/aphp/aphp.php');
 require_once('XML/RPC2/Client.php');
+require_once('external_lib/Bencode/Bencode.php');
 
 /**
  * KKK library files.

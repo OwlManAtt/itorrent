@@ -43,6 +43,8 @@ CREATE TABLE `rss_feed` (
   `feed_title` varchar(20) NOT NULL,
   `feed_url` text NOT NULL,
   `default` enum('N','Y') NOT NULL default 'N',
+  `fetch_metadata` enum('Y','N') NOT NULL default 'N',
+  `metadata_expire_seconds` int(11) NOT NULL default '0',
   PRIMARY KEY  (`rss_feed_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -103,13 +105,15 @@ CREATE TABLE `staff_permission` (
 DROP TABLE IF EXISTS `torrent_meta`;
 CREATE TABLE `torrent_meta` (
   `torrent_meta_id` int(10) unsigned NOT NULL auto_increment,
-  `url` varchar(255) NOT NULL,
-  `infohash` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `size` bigint(255) NOT NULL,
+  `rss_feed_id` int(11) NOT NULL,
+  `url` text NOT NULL,
+  `infohash` char(40) NOT NULL,
+  `name` text NOT NULL,
+  `size` bigint(20) NOT NULL,
   `files` int(11) NOT NULL,
-  `row_added` int(11) NOT NULL,
-  PRIMARY KEY  (`torrent_meta_id`)
+  `cached_datetime` datetime NOT NULL,
+  PRIMARY KEY  (`torrent_meta_id`),
+  KEY `rss_feed_id` (`rss_feed_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --

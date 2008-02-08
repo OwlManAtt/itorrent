@@ -35,6 +35,11 @@
 require('getter.class.php');
 
 /**
+ * Exception library.
+ **/
+ require('exceptions.class.php');
+
+/**
  * User-related classes.
  **/
 require('user/user.class.php');

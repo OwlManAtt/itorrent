@@ -28,7 +28,6 @@
  * @version 1.0.0
  **/
 
-
 $ERRORS = array();
 
 $feed_id = stripinput($_REQUEST['feed_id']);
@@ -86,6 +85,7 @@ else
     $FEED = array(
         'id' => $feed->getRssFeedId(),
         'name' => $feed->getFeedTitle(),
+        'display_metadata' => ($feed->getFetchMetadata() == 'Y' ? true : false),
     );
 
     $rss_highlighter = new RSSHighlight($db);
@@ -126,24 +126,33 @@ else
             {
                 $style = 'color: gray; font-size: small;';
             }
-            $TorrentMeta = new TorrentMeta($db);
-            $link = $item->getLink();
-            $TorrentMeta = $TorrentMeta->cacheTorrent($link);
-            $ITEMS[] = array(
+            
+            $ITEM = array(
                 'internal_id' => $i,
                 'title' => $item->getTitle(),
                 'title_details' => $item->getLeanTitle(),
-                'url' => $link,
+                'url' => $item->getLink(),
                 'datetime' => $item->getPubdate(),
                 'style' => $style,
                 'icon' => $icon,
-                'infohash' => $TorrentMeta["infohash"],
-                'size' => $TorrentMeta["size"],
-                'files' => $TorrentMeta["files"]
+                'infohash' => null, 
+                'size' => null,
+                'files' => null,
             );
 
+            $torrent_meta = new TorrentMeta($db);
+            $torrent_meta = $torrent_meta->findOneByUrl($item->getLink());
+            if($torrent_meta != null)
+            {
+                $ITEM['infohash'] = $torrent_meta->getInfohash();
+                $ITEM['size'] = $torrent_meta->getFormattedSize();
+                $ITEM['files'] = $torrent_meta->getFiles();
+            }
+
+            $ITEMS[] = $ITEM;
+            
             $i++;
-        }
+        } // end surpress things already torrenting
     } // end item reformat loop
 
     $renderer->assign('feed',$FEED);
