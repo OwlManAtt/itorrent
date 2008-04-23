@@ -1,5 +1,5 @@
 #!/bin/bash
-tables=( jump_page staff_permission staff_group staff_group_staff_permission )
+tables=( jump_page staff_permission staff_group staff_group_staff_permission ) 
 
 if [ "$1" = '' ]
 then
@@ -11,5 +11,5 @@ mysqldump -d -u root --password=$1 itorrent > mysql5_ddl.sql
 
 for table in  ${tables[@]}
 do
-    mysqldump -t -c -u root --password=$1 itorrent $table > data/${table}.sql
+    mysqldump -t -c -u root --password=$1 itorrent $table > data_mysql/${table}.sql
 done
