@@ -102,6 +102,9 @@ switch($_REQUEST['state'])
 			$new_user->setPassword($USER['password']);
             $new_user->setEmail($USER['email']);
             $new_user->setDatetimeCreated($new_user->sysdate());
+            $new_user->setLastActivity($new_user->sysdate());
+            $new_user->setPasswordResetRequested($new_user->sysdate());
+            $new_user->setCurrentSaltExpiration($new_user->sysdate());
 			$new_user->save();
 			
 			// Log the user in and send him back home.

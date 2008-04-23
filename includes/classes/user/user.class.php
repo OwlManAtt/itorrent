@@ -162,7 +162,7 @@ class User extends ActiveTable
             
             // Rip the salt down.
             $this->setCurrentSalt('');
-            $this->setCurrentSaltExpiration(0);
+            $this->setCurrentSaltExpiration($this->sysdate());
             $this->save();
 		} // end zeroing
 		
@@ -218,16 +218,49 @@ class User extends ActiveTable
         
         if(array_key_exists($permission,$this->permission_cache) == false)
         {
-            $result = $this->db->getOne('
-                SELECT 
-                    count(*) AS has_permission
-                FROM user
-                INNER JOIN user_staff_group ON user.user_id = user_staff_group.user_id
-                INNER JOIN staff_group_staff_permission ON user_staff_group.staff_group_id = staff_group_staff_permission.staff_group_id
-                INNER JOIN staff_permission ON staff_group_staff_permission.staff_permission_id = staff_permission.staff_permission_id
-                WHERE staff_permission.api_name = ?
-                AND user.user_id = ?
-            ',array($permission,$this->getUserId()));
+            switch($this->db->phptype)
+            {
+                case 'mysqli':
+                case 'mysql':
+                {
+                    $result = $this->db->getOne('
+                        SELECT 
+                            count(*) AS has_permission
+                        FROM user
+                        INNER JOIN user_staff_group ON user.user_id = user_staff_group.user_id
+                        INNER JOIN staff_group_staff_permission ON user_staff_group.staff_group_id = staff_group_staff_permission.staff_group_id
+                        INNER JOIN staff_permission ON staff_group_staff_permission.staff_permission_id = staff_permission.staff_permission_id
+                        WHERE staff_permission.api_name = ?
+                        AND user.user_id = ?
+                    ',array($permission,$this->getUserId()));
+
+                    break;
+                } // end mysql
+
+                case 'pgsql':
+                {
+                    $result = $this->db->getOne('
+                        SELECT 
+                            count(*) AS has_permission
+                        FROM "user"
+                        INNER JOIN "user_staff_group" ON "user"."user_id" = "user_staff_group"."user_id"
+                        INNER JOIN "staff_group_staff_permission" ON "user_staff_group"."staff_group_id" = "staff_group_staff_permission"."staff_group_id"
+                        INNER JOIN "staff_permission" ON "staff_group_staff_permission"."staff_permission_id" = "staff_permission"."staff_permission_id"
+                        WHERE "staff_permission"."api_name" = ?
+                        AND "user"."user_id" = ?
+                    ',array($permission,$this->getUserId()));
+
+                    break;
+                } // end pgsql
+
+                default:
+                case 'oci8':
+                {
+                    throw new ArgumentError('Query not implemented for selected RDBMS.');
+
+                    break;
+                } // end default, oci9
+            } // end phptype switch
 
             if(PEAR::isError($result))
             {

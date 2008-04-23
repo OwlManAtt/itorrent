@@ -189,13 +189,12 @@ else
                         {
                             $user->setPassword($_REQUEST['password']['a']);
                             $user->setPasswordResetConfirm('');
-                            $user->setPasswordResetRequested(0);
+                            $user->setPasswordResetRequested($user->sysdate());
                             $user->save();
                             
                             $user->login();
                             
-                            $_SESSION['pref_notice'] = 'You have successfully updated your password.';
-                            redirect('preferences');
+                            redirect('torrents');
                         } // end do it
         
                         break;

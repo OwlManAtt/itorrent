@@ -69,9 +69,16 @@ switch($_SERVER['RELEASE_MODE'])
              * @var array
              **/
 			'db_dsn' => array(
-				'phptype' => 'mysql', // This can also be run on Oracle (oci).
+				/*
+                'phptype' => 'mysql', // This can also be run on Oracle (oci).
 				'username' => 'itorrent',
 				'password' => 'AJU@#95Cxr3XPr6P&JYw',
+				'hostspec' => 'localhost',
+				'database' => 'itorrent',
+                */
+                'phptype' => 'pgsql', // This can also be run on Oracle (oci).
+				'username' => 'itorrent',
+				'password' => '1t0rr3nt',
 				'hostspec' => 'localhost',
 				'database' => 'itorrent',
 			),
