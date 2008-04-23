@@ -3,4 +3,4 @@
 	url = git://github.com/OwlManAtt/activephp.git 
 [submodule "external_lib/Smarty"]
 	path = external_lib/Smarty
-	url = git://github.com/OwlManAtt/smarty-ys.git
+	url = git://github.com/OwlManAtt/smarty-ys.git 
