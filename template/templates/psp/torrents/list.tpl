@@ -1,13 +1,13 @@
 {if $alert != ''}<ul><li id='alert' class='{$fat}'>{$alert}</li></ul>{/if}
 
 <a name='leeching' />
-<table class='inputTable' width='100%'>
+<table class='inputTable'>
     <tr>
         <td colspan='4' class='inputTableHead'>Leeching</td>
     </tr>
     {section name=index loop=$incomplete_torrents}
     {assign var='torrent' value=$incomplete_torrents[index]}
-    
+
     {if $torrent.active == 1}
         {assign var='inactive' value=''}
         {assign var='icon' value='green.png'}
@@ -15,7 +15,7 @@
         {assign var='inactive' value=' inactive'}
         {assign var='icon' value='red.png'}
     {/if}
-    
+
     {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
     <tr>
         <td class='{$class}{$inactive} center' width='16'>
@@ -25,24 +25,24 @@
             </form>
             <form action='{$display_settings.public_dir}/remove-torrent' method='post'>
                 <input type='hidden' name='hash_id' value='{$torrent.hash}' />
-                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
+                <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm' />
             </form>
         </td>
         <td class='{$class}{$inactive}'>
-            {$torrent.title|truncate:45:"...":true}<br/>
-            {$torrent.size.downloaded} / {$torrent.size.total} ({$torrent.percent_complete}%)</td> 
-        <td class='{$class}{$inactive}'>
-            {$torrent.rate.up}/s / {$torrent.rate.down}/s<br/>
-            {$torrent.eta}</div>
-        </td> 
+            {$torrent.title|truncate:37:"...":true}<br/>
+            {$torrent.size.downloaded} / {$torrent.size.total} ({$torrent.percent_complete}%)</td>
+        <td class='{$class}{$inactive}' width='130'>
+            {if $torrent.active == 1}
+		{$torrent.rate.up}/s / {$torrent.rate.down}/s<br/>
+            {/if}
+            {$torrent.eta}
+        </td>
     </tr>
     {sectionelse}
     <tr>
-        <td colspan='7' class='inputTableRowAlt empty-table'>No torrents are being downloaded.</td> 
+        <td colspan='7' class='inputTableRowAlt empty-table'>No torrents are being downloaded.</td>
     </tr>
     {/section}
-    
-    
 </table>
 
 <br /><br />
@@ -62,7 +62,7 @@
     </tr>
     {section name=index loop=$complete_torrents}
     {assign var='torrent' value=$complete_torrents[index]}
-    
+
     {if $torrent.active == 1}
         {assign var='inactive' value=''}
         {assign var='icon' value='green.png'}
@@ -70,7 +70,7 @@
         {assign var='inactive' value=' inactive'}
         {assign var='icon' value='red.png'}
     {/if}
-    
+
     {cycle values='inputTableRowAlt,inputTableRow' assign='class'}
     <tr>
         <td class='{$class}{$inactive} center'>
@@ -85,14 +85,14 @@
                 <input type='image' src='{$display_settings.public_dir}/resources/images/icons/red_x.png' alt='Rm ' />
             </form>
         </td>
-        <td class='{$class}{$inactive}'><span title='{$torrent.title}'>{$torrent.title|truncate:45:"...":true}</span></td> 
-        <td class='{$class}{$inactive}'>{$torrent.size.total}</td> 
-        <td class='{$class}{$inactive}'>{$torrent.rate.up}/s</td> 
-        <td class='{$class}{$inactive}'>{$torrent.ratio}</td> 
+        <td class='{$class}{$inactive}'><span title='{$torrent.title}'>{$torrent.title|truncate:45:"...":true}</span></td>
+        <td class='{$class}{$inactive}'>{$torrent.size.total}</td>
+        <td class='{$class}{$inactive}'>{$torrent.rate.up}/s</td>
+        <td class='{$class}{$inactive}'>{$torrent.ratio}</td>
     </tr>
     {sectionelse}
     <tr>
-        <td colspan='6' class='inputTableRowAlt empty-table'>No torrents are being seeded.</td> 
+        <td colspan='6' class='inputTableRowAlt empty-table'>No torrents are being seeded.</td>
     </tr>
     {/section}
 </table>
