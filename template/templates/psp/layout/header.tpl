@@ -8,7 +8,7 @@
         <style type="text/css" media="screen">
             @import url( {$display_settings.public_dir}/resources/styles/style-psp.css );
         </style>
-        
+
         <script type='text/javascript' src='{$display_settings.public_dir}/resources/script/fat.js'></script>
     </head>
     <body>
@@ -16,7 +16,7 @@
             <span id='page_name'><h1>{$page_html_title}</h1></span>
             <h1><a id='site_name' href='{$display_settings.public_dir}'>{$site_name}</a></h1>
         </div>
-        
+
         <div id='main-box'>
             <div id='left-column'>
                 <ul id='navigation-bar' class='flat-list'>
