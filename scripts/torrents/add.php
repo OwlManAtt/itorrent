@@ -59,7 +59,7 @@ switch($_REQUEST['state'])
                 $start_immediately = false;
             }
             
-            $torrent = Torrent::create($APP_CONFIG['rpc_uri'],$_POST['torrent']['uri'],$start_immediately);
+            $torrent = Torrent::create($APP_CONFIG['rpc_uri'],trim($_POST['torrent']['uri']),$start_immediately);
 
             $_SESSION['torrents_alert'] = 'Torrent added. It should show up soon...maybe.';
 
