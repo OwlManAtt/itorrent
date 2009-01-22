@@ -24,9 +24,9 @@ Marketing text goes here. But, I don't feel like writing any yet.
 It is best to use Lighttpd to frontend the rTorrent domain socket. The link
 above recommends this and explains how to set it up. I encountered a few issues:
 
-    *  Ubuntu's lighttpd package comes with the scgi module turned off. It had
-       to be enabled by adding mod_scgi to server.modules in the lighttpd
-       config file.
+    * Ubuntu's lighttpd package comes with the scgi module turned off. It had
+      to be enabled by adding mod_scgi to server.modules in the lighttpd
+      config file.
 
     * rTorrent may create the socket file with permissions that render it
       useless to Lighttpd. If you have problems with the RPC interface, check
@@ -40,6 +40,8 @@ above recommends this and explains how to set it up. I encountered a few issues:
 
 == 2. Installing iTorrent ==
 1. Put the files in a web-accessible folder.
+   Note:  If you are installing from git, run the following commands in the
+          install directory:  git submodule init && git submodule update
 2. Chmod the template/cache and template/templates_c folders to be writable by
    the webserver.
 3. Edit the includes/config.inc.php file. Follow the in-line documentation and
